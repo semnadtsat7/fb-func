@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Schools</title>
+  <!-- stylesheets -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+  <!-- auth modals -->
+  <div class="auth open">
+    <div class="modal">
+      <h2>Login</h2>
+      <form class="login">
+        <input type="text" name="email" placeholder="Email" />
+        <input type="password" name="password" placeholder="Password" />
+        <button>Login</button>
+        <p class="error"></p>
+      </form>
+      <div>No account? <a class="switch">Register instead</a></div>
+    </div>
+    <div class="modal">
+      <h2>Register</h2>
+      <form class="register">
+        <input type="text" name="email" placeholder="Email" />
+        <input type="password" name="password" placeholder="Password" />
+        <button>Register</button>
+        <p class="error"></p>
+      </form>
+      <div>Got an account? <a class="switch">Login instead</a></div>
+    </div>
+  </div>
+
+  <header>
+    <nav>
+      <a class="search">Search For School</a>
+      <a class="sign-out">Sign Out</a>
+    </nav>
+  </header>
+
+  <form id="searchForm">
+    <div class="form-group">
+      <label for="nameInput">School Name</label>
+      <input placeholder="Enter school name" type="text" class="form-control" name="name" id="nameInput" />
+    </div>
+    <div class="form-group my-3">
+      <button type="submit" class="btn btn-success">Search</button>
+    </div>
+  </form>
+
+
+  <table class="table table-border tableData" id="app">
+    <tr class="header-table">
+      <th>Name</th>
+      <th>School Code</th>
+      <th>Address</th>
+      <th>Region</th>
+      <th>Education Service Area</th>
+      <th class="level">Active Grade Levels</th>
+      <th>Email</th>
+      <th>Tel</th>
+      <th>School Director</th>
+
+      <th>Website</th>
+    </tr>
+    <tr class="row" v-for="school in schools">
+      <th class="name">
+        {{ school.name.thai }}<br />{{ school.name.english }}
+      </th>
+      <th class="code">{{ school.schoolCode }}</th>
+      <th class="address">
+        {{ school.addresses[0].address || school.addresses[0].number }}
+      </th>
+      <th class="region">{{ school.addresses[0].region }}</th>
+      <th class="service">{{ school.educationServiceArea }}</th>
+      <th class="isactive">
+        <table class="grades-table">
+          <tr>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade1, 'gray-bg': !school.gradeLevelIsActive.grade1 }">
+              {{ school.gradeLevelIsActive.grade1 }}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade2, 'gray-bg': !school.gradeLevelIsActive.grade2 }">
+              {{ school.gradeLevelIsActive.grade2 }}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade3, 'gray-bg': !school.gradeLevelIsActive.grade3 }">
+              {{school.gradeLevelIsActive.grade3}}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade4, 'gray-bg': !school.gradeLevelIsActive.grade4 }">
+              {{school.gradeLevelIsActive.grade4}}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade5, 'gray-bg': !school.gradeLevelIsActive.grade5 }">
+              {{school.gradeLevelIsActive.grade5}}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade6, 'gray-bg': !school.gradeLevelIsActive.grade6 }">
+              {{school.gradeLevelIsActive.grade6}}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade7, 'gray-bg': !school.gradeLevelIsActive.grade7 }">
+              {{school.gradeLevelIsActive.grade7}}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade8, 'gray-bg': !school.gradeLevelIsActive.grade8 }">
+              {{school.gradeLevelIsActive.grade8}}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade9, 'gray-bg': !school.gradeLevelIsActive.grade9 }">
+              {{school.gradeLevelIsActive.grade9}}
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade10, 'gray-bg': !school.gradeLevelIsActive.grade10 }">
+              {{school.gradeLevelIsActive.grade1}}0
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade11, 'gray-bg': !school.gradeLevelIsActive.grade11 }">
+              {{school.gradeLevelIsActive.grade1}}1
+            </th>
+            <th v-bind:class="{ 'green-bg': school.gradeLevelIsActive.grade12, 'gray-bg': !school.gradeLevelIsActive.grade12 }">
+              {{school.gradeLevelIsActive.grade1}}2
+            </th>
+          </tr>
+        </table>
+      </th>
+      <th class="email">{{ school.email }}</th>
+      <th class="tel">{{ school.phone }}</th>
+      <th class="direct">{{ school.schoolDirector.name }}</th>
+
+      <th class="website">{{ school.website }}</th>
+    </tr>
+  </table>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- vue js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!-- update the version number as needed -->
+    <script src="/__/firebase/7.7.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script src="/__/firebase/7.7.0/firebase-auth.js"></script>
+    <script src="/__/firebase/7.7.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/7.7.0/firebase-functions.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script src="/__/firebase/init.js"></script>
+
+  <script src="js/auth.js"></script>
+  <script src="js/school.js"></script>
+</body>
+
+</html>
